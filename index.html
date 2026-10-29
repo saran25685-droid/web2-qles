@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QLES | Hospital Queue & Appointment System</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="brand-mark">Q</span><span>QLES<small>Queue & Live Experience System</small></span></a>
+    <nav><a href="#dashboard">Dashboard</a><a href="#doctors">Doctors</a><a href="#appointments">Appointments</a></nav>
+    <button class="btn btn-light" id="resetDemo">Reset demo</button>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">SMART HOSPITAL QUEUE MANAGEMENT</p>
+        <h1>Less waiting.<br><span>More care.</span></h1>
+        <p class="hero-copy">Find a doctor, book a consultation slot, and follow your queue in one place.</p>
+        <a class="btn btn-primary" href="#doctors">Book an appointment <span>→</span></a>
+      </div>
+      <div class="hero-card">
+        <div class="live-line"><span class="live-dot"></span> LIVE QUEUE PREVIEW <span class="live-pill">DEMO</span></div>
+        <div class="queue-number"><span>Your queue number</span><strong id="heroQueue">Q-014</strong></div>
+        <div class="queue-progress"><span style="width:64%"></span></div>
+        <div class="queue-meta"><span>Estimated wait</span><strong id="heroWait">18 minutes</strong></div>
+        <div class="queue-note"><span class="check">✓</span> We'll keep your queue status updated.</div>
+      </div>
+    </section>
+
+    <section id="dashboard" class="stats-grid">
+      <article class="stat-card"><div class="stat-icon purple">◷</div><p>Average wait time</p><strong>24 <small>min</small></strong><span class="positive">↓ 12% this week</span></article>
+      <article class="stat-card"><div class="stat-icon blue">♧</div><p>Available doctors</p><strong id="availableCount">4</strong><span class="muted">Across 4 departments</span></article>
+      <article class="stat-card"><div class="stat-icon green">▣</div><p>My active bookings</p><strong id="activeCount">0</strong><span class="muted">Demo appointments</span></article>
+      <article class="stat-card"><div class="stat-icon orange">★</div><p>Patient satisfaction</p><strong>4.8 <small>/ 5</small></strong><span class="muted">Based on demo reviews</span></article>
+    </section>
+
+    <section id="doctors" class="section">
+      <div class="section-heading"><div><p class="eyebrow">FIND YOUR SPECIALIST</p><h2>Book a doctor</h2></div><div class="filters"><input id="searchDoctor" type="search" placeholder="Search doctor or department..." /><select id="departmentFilter"><option value="all">All departments</option><option>Cardiology</option><option>Dermatology</option><option>General Medicine</option><option>Pediatrics</option></select></div></div>
+      <div id="doctorGrid" class="doctor-grid"></div>
+    </section>
+
+    <section id="appointments" class="section two-col">
+      <div class="panel">
+        <div class="section-heading compact"><div><p class="eyebrow">YOUR VISITS</p><h2>My appointments</h2></div><span class="count-badge" id="appointmentBadge">0</span></div>
+        <div id="appointmentList" class="appointment-list"><div class="empty-state"><span>▤</span><strong>No appointments yet</strong><p>Choose a doctor above to book your first slot.</p></div></div>
+      </div>
+      <div class="panel queue-panel">
+        <p class="eyebrow">QUEUE TRACKER</p><h2>Track your wait</h2>
+        <p class="subtext">Enter your queue number to view a simulated live estimate.</p>
+        <form id="trackForm" class="track-form"><input id="queueInput" placeholder="e.g. Q-014" required /><button class="btn btn-primary" type="submit">Track queue</button></form>
+        <div id="trackResult" class="track-result"><div class="track-big">Q-014</div><div><strong>Estimated wait: 18 min</strong><p>There are 3 patients ahead of you.</p></div></div>
+        <div class="queue-disclaimer">Queue estimates are simulated for this student demo and are not connected to a real hospital.</div>
+      </div>
+    </section>
+
+    <section class="section rating-section">
+      <div><p class="eyebrow">HELP US IMPROVE</p><h2>Rate your experience</h2><p class="subtext">Share feedback after your consultation.</p></div>
+      <form id="ratingForm" class="rating-form"><label for="ratingName">Name (optional)</label><input id="ratingName" placeholder="Your name" /><label>Rating</label><div class="stars" role="radiogroup" aria-label="Rating"><button type="button" class="star selected" data-rating="1">★</button><button type="button" class="star selected" data-rating="2">★</button><button type="button" class="star selected" data-rating="3">★</button><button type="button" class="star selected" data-rating="4">★</button><button type="button" class="star selected" data-rating="5">★</button></div><label for="ratingFeedback">Feedback</label><textarea id="ratingFeedback" rows="3" placeholder="Tell us about your experience..."></textarea><button class="btn btn-primary" type="submit">Submit rating</button><p id="ratingMessage" class="form-message" aria-live="polite"></p></form>
+    </section>
+  </main>
+
+  <footer><div class="footer-brand">QLES <span>•</span> Smart queue management</div><p>Student project prototype · Demo data only · No real payments are processed</p></footer>
+
+  <dialog id="bookingDialog">
+    <form id="bookingForm" class="dialog-content">
+      <button type="button" class="dialog-close" id="closeDialog" aria-label="Close">×</button>
+      <p class="eyebrow">NEW APPOINTMENT</p><h2>Confirm your visit</h2>
+      <div id="selectedDoctorInfo" class="selected-doctor"></div>
+      <input type="hidden" id="doctorId" />
+      <label for="patientName">Patient name</label><input id="patientName" required placeholder="Enter full name" />
+      <label for="patientPhone">Phone number</label><input id="patientPhone" required inputmode="tel" pattern="[0-9 +()-]{8,16}" placeholder="Enter phone number" />
+      <div class="form-row"><div><label for="visitDate">Date</label><input type="date" id="visitDate" required /></div><div><label for="visitTime">Available slot</label><select id="visitTime" required><option>09:30 AM</option><option>10:30 AM</option><option>11:30 AM</option><option>02:00 PM</option><option>03:00 PM</option></select></div></div>
+      <div class="payment-box"><div><span>Consultation fee</span><strong id="feeAmount">₹300</strong></div><div><span>Payment mode</span><strong>Demo payment</strong></div><p>This is a simulated payment screen. No money will be charged.</p></div>
+      <button class="btn btn-primary full-width" type="submit">Confirm booking & demo pay</button>
+      <p id="bookingMessage" class="form-message"></p>
+    </form>
+  </dialog>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="script.js"></script>
+</body>
+</html>
